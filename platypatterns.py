@@ -5,13 +5,13 @@ import random
 def generate(
     machines,
     tape_width,
-    num_states,
+    num_colours,
     off_colour=(228, 221, 213),
     on_colour=(0, 0, 0),
     show_machine_states=False,
     max_steps=1600,
     random_rules=False,
-    output_filename="output.png",
+    output_filename="output.bmp",
     random_tape=False,
     random_start_positions=False
 ):
@@ -19,7 +19,7 @@ def generate(
     # Create a blank image
     image_width = tape_width
     image_height = max_steps
-    image = Image.new("RGB", (image_width, image_height), off_colour)
+    image = Image.new("RGB", (image_width, image_height), (0,30,255))
     draw = ImageDraw.Draw(image)
 
     machine_index = 0
@@ -56,7 +56,7 @@ def generate(
         machine = machines[machine_index]
         read = board_state[machine["position"]]
 
-        rule_index = machine["state"] * num_states + read   # find matching rule
+        rule_index = machine["state"] * num_colours + read   # find matching rule
 
         if rule_index >= len(machine["rules"]):
             print("Machine " + str(machine_index) + " terminated!")
@@ -91,11 +91,10 @@ def generate(
     # Crop the image to the actual game length
     image = image.crop((0, 0, image_width, turn))
 
-    # Save the image as a PNG file
-    image.save('run_imgs/' + output_filename)
+    image.save('run_imgs/' + output_filename, compress_level=0)
 
     # Return the image filename reference
-    return machines
+    return (machines, board_state)
 
 
 def random_run(run_id,
@@ -103,6 +102,7 @@ def random_run(run_id,
                tape_width,
                random_tape,
                random_start_positions,
+               max_steps=2048,
                off_colour=(228, 221, 213),
                on_colour=(0, 0, 0),
                ):
@@ -122,11 +122,11 @@ def random_run(run_id,
         "color": None
     }] * num_machines
 
-    machines = generate(machines, tape_width, 4, on_colour, off_colour,
-                        False, 800, True, output_filename=f"{run_id}.png",
+    (machines, board_state) = generate(machines, tape_width, 2, on_colour, off_colour,
+                        False, max_steps, True, output_filename=f"{run_id}.png",
                         random_tape=random_tape, random_start_positions=random_start_positions)
 
-    return machines
+    return (machines, board_state)
 
 
 # Example usage:
@@ -183,9 +183,7 @@ if __name__ == "__main__":
     generate(
         machines=MACHINES,
         tape_width=101,
-        num_states=2,
-        off_colour=(215, 196, 158),
-        on_colour=(52, 49, 72),
+        num_colours=2,
         show_machine_states=False,
         max_steps=16000,
         random_rules=False,

@@ -6,9 +6,12 @@ import os
 import platypatterns
 import csv
 
+# add tape start state
+
 # 3 machines, 101 board, random tape, random start positions
 run_id = uuid.uuid1()
-machines = platypatterns.random_run(run_id, 3, 101, False, False)
+max_steps = 2048
+(machines, tape) = platypatterns.random_run(run_id, 3, 51, False, False)
 input_file = f"run_imgs/{run_id}.png"
 image = Image.open(input_file)
 
@@ -39,7 +42,7 @@ compression = compressed_file_size/original_file_size
 
 # Report to CSV
 with open('run_data.csv', mode='a', newline='') as file:
-    row_data = [run_id, width, height, original_file_size, compressed_file_size, compression]
+    row_data = [run_id, max_steps, width, height, original_file_size, compressed_file_size, compression, tape]
     for machine in machines:
         machine_data = [
             machine["position"],
