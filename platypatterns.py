@@ -39,7 +39,7 @@ def generate(
             ]
 
         if random_start_positions:
-            machine["position"] = random.randint(0, tape_width)
+            machine["position"] = random.randint(0, tape_width - 1)
         else:
             machine["position"] = tape_width // 2
 
@@ -54,6 +54,7 @@ def generate(
 
     while not game_over:
         machine = machines[machine_index]
+
         read = board_state[machine["position"]]
 
         rule_index = machine["state"] * num_colours + read   # find matching rule
