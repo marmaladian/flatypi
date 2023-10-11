@@ -60,11 +60,11 @@ def generate(
         rule_index = machine["state"] * num_colours + read   # find matching rule
 
         if rule_index >= len(machine["rules"]):
-            print("Machine " + str(machine_index) + " terminated!")
+            # print("Machine " + str(machine_index) + " terminated!")
             break
 
         if turn > max_steps:
-            print("Max turns exceeded!")
+            # print("Max turns exceeded!")
             break
 
         rule = machine["rules"][rule_index]

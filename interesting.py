@@ -9,10 +9,10 @@ import csv
 
 max_steps = 2048
 
-for _ in range(100):
+for _ in range(1000):
     run_id = uuid.uuid1()
     num_machines = random.choice([1, 2, 3, 4, 5])
-    tape_width = random.choice([11, 25, 51, 101, 251])
+    tape_width = random.randint(3, 1025)
     random_tape = bool(random.getrandbits(1))
     random_start_positions = bool(random.getrandbits(1))
 
@@ -63,11 +63,11 @@ for _ in range(100):
         writer = csv.writer(file)
         writer.writerow(row_data)
 
-    print(f"Run: {run_id}")
-    print(f"Original dimensions: {width}x{height}")
-    print(f"Original size: {original_file_size} bytes")
-    print(f"Compressed size: {compressed_file_size} bytes")
-    print(f"Compression: {compression*100:.2f}%")
+    # print(f"Run: {run_id}")
+    # print(f"Original dimensions: {width}x{height}")
+    # print(f"Original size: {original_file_size} bytes")
+    # print(f"Compressed size: {compressed_file_size} bytes")
+    # print(f"Compression: {compression*100:.2f}%")
 
     # Close the images
     image.close()
