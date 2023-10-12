@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import csv
 import numpy as np
 
-min_tape_width = 25
-max_tape_width = 25
+min_steps = 1
+max_steps = 10
 
 with open('analysis.csv', 'r') as file:
     reader = csv.DictReader(file)
@@ -17,10 +17,10 @@ with open('analysis.csv', 'r') as file:
         output_compression = 1 - float(row['output_compression'])
         tape_size = int(row['img_and_tape_width'])
 
-        # if min_tape_width <= tape_size <= max_tape_width:
-        tape_widths.append(tape_size)
-        steps.append(step)
-        output_compressions.append(output_compression)
+        if min_steps <= step <= max_steps:
+            tape_widths.append(tape_size)
+            steps.append(step)
+            output_compressions.append(output_compression)
 
 colormap = plt.get_cmap('viridis')
 # normalised_step_compressions = (steps - np.min(steps)) / (np.max(steps) - np.min(steps))
